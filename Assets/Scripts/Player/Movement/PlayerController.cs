@@ -40,8 +40,13 @@ public class PlayerController : MonoBehaviour
     }
 
     public float moveSpeed = 3f;
+
     public float attackCooldown = 0.5f; // Cooldown time between attacks
     private float lastAttackTime;
+    private Vector2 attackDirection;
+    public Collider2D attackCollider;
+    public float attackRange = 1.5f;
+
 
 
     private Vector2 moveInput = Vector2.zero;
@@ -58,6 +63,13 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        attackCollider.enabled = false;
+    }
+
+     void Update()
+    {
+        // Update the attack direction based on player input or other logic
+        attackDirection = new Vector2(animator.GetFloat("xMove"), animator.GetFloat("yMove"));
     }
 
     private void FixedUpdate()
@@ -111,6 +123,13 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void OnAttackStart()
+    {
+        // Triggered when the attack animation starts
+        UpdateAttackColliderPosition();
+        attackCollider.enabled = true; // Enable the collider
+    }
+
     void OnAttackFinished()
     {
         stateLock = false;
@@ -124,6 +143,15 @@ public class PlayerController : MonoBehaviour
         {
             currentState = PlayerStates.IDLE;
         }
+        attackCollider.enabled = false; // Disable the collider
+    }
 
+    void UpdateAttackColliderPosition()
+    {
+        // Calculate the new position based on the attack direction
+        Vector3 newPosition = transform.position + (Vector3)attackDirection.normalized * attackRange;
+
+        // Set the collider's position
+        attackCollider.transform.position = newPosition;
     }
 }
