@@ -372,10 +372,10 @@ GameObject:
   - component: {fileID: 1134808376}
   - component: {fileID: 1134808375}
   - component: {fileID: 1134808374}
-  - component: {fileID: 1134808373}
   - component: {fileID: 1134808377}
   - component: {fileID: 1134808378}
   - component: {fileID: 1134808379}
+  - component: {fileID: 1134808373}
   - component: {fileID: 1134808380}
   m_Layer: 0
   m_Name: Player
@@ -632,10 +632,10 @@ MonoBehaviour:
   - {fileID: 1677337258}
   - {fileID: 1604897143}
   timeBetweenWaves: 5
-  spawnRate: 2
-  initialEnemiesPerWave: 5
-  spawnRateIncrease: 0.1
-  enemiesPerWaveIncrease: 1
+  initialSpawnRate: 2
+  maxSpawnRate: 0.5
+  spawnRateDecrease: 0.1
+  maxEnemiesPerWave: 10
 --- !u!4 &1330314054
 Transform:
   m_ObjectHideFlags: 0
