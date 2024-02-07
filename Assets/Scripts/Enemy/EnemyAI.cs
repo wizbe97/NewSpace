@@ -3,7 +3,10 @@ using UnityEngine;
 public class EnemyAI : MonoBehaviour
 {
     public float moveSpeed = 3f;
+    public Animator animator;
+
     public float detectionRange = 5f; // Range within which the enemy detects the player
+    public float avoidanceRange = 1.5f; // Range within which the enemy avoids other enemies
 
     private Rigidbody2D rb;
     private Transform player;
@@ -12,6 +15,7 @@ public class EnemyAI : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
+        animator = GetComponent<Animator>();
     }
 
     void Update()
@@ -24,7 +28,23 @@ public class EnemyAI : MonoBehaviour
             if (distanceToPlayer <= detectionRange)
             {
                 Vector2 direction = (player.position - transform.position).normalized;
-                rb.velocity = direction * moveSpeed;
+
+                // Check for nearby enemies
+                Collider2D[] nearbyEnemies = Physics2D.OverlapCircleAll(transform.position, avoidanceRange);
+                Vector2 avoidanceMove = Vector2.zero;
+
+                foreach (Collider2D enemy in nearbyEnemies)
+                {
+                    if (enemy.gameObject != gameObject) // Exclude self
+                    {
+                        Vector2 avoidDir = (transform.position - enemy.transform.position).normalized;
+                        avoidanceMove += avoidDir;
+                    }
+                }
+
+                direction += avoidanceMove; // Add avoidance move
+
+                rb.velocity = direction.normalized * moveSpeed;
             }
             else
             {
@@ -33,5 +53,4 @@ public class EnemyAI : MonoBehaviour
             }
         }
     }
-
 }
