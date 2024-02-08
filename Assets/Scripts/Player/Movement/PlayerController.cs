@@ -46,6 +46,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 attackDirection;
     public Collider2D attackCollider;
     public float attackRange = 1.5f;
+    public MeleeAttack meleeAttack;
 
 
 
@@ -58,17 +59,21 @@ public class PlayerController : MonoBehaviour
 
     private bool stateLock = false;
     private bool canMove = true;
+    private string currentWeapon;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         attackCollider.enabled = false;
+        currentWeapon = "wrench";
+        meleeAttack = GetComponentInChildren<MeleeAttack>();
+
+
     }
 
-     void Update()
+    void Update()
     {
-        // Update the attack direction based on player input or other logic
         attackDirection = new Vector2(animator.GetFloat("xMove"), animator.GetFloat("yMove"));
     }
 
@@ -108,19 +113,24 @@ public class PlayerController : MonoBehaviour
 
     void OnCombat()
     {
-        if (Time.time - lastAttackTime >= attackCooldown)
+        if (currentWeapon == "wrench")
         {
-            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+            if (Time.time - lastAttackTime >= attackCooldown)
+            {
+                Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
 
-            Vector2 attackDirection = (mousePosition - transform.position).normalized;
+                Vector2 attackDirection = (mousePosition - transform.position).normalized;
 
-            animator.SetFloat("xMove", attackDirection.x);
-            animator.SetFloat("yMove", attackDirection.y);
+                animator.SetFloat("xMove", attackDirection.x);
+                animator.SetFloat("yMove", attackDirection.y);
 
-            currentState = PlayerStates.ATTACK;
+                currentState = PlayerStates.ATTACK;
 
-            lastAttackTime = Time.time;
+                lastAttackTime = Time.time;
+            }
+
         }
+        
     }
 
     void OnAttackStart()
@@ -154,4 +164,6 @@ public class PlayerController : MonoBehaviour
         // Set the collider's position
         attackCollider.transform.position = newPosition;
     }
+
+    
 }

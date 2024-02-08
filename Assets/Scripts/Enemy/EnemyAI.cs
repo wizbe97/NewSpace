@@ -2,55 +2,63 @@ using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
 {
-    public float moveSpeed = 3f;
-    public Animator animator;
+    public float moveSpeed = 5f;
+    public float raycastDistance = 10f;
 
-    public float detectionRange = 5f; // Range within which the enemy detects the player
-    public float avoidanceRange = 1.5f; // Range within which the enemy avoids other enemies
+    private GameObject player;
+    private bool playerVisible = false;
 
-    private Rigidbody2D rb;
-    private Transform player;
-
-    void Start()
+    private void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
-        player = GameObject.FindGameObjectWithTag("Player").transform;
-        animator = GetComponent<Animator>();
+        // Find the GameObject with the "Player" tag
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 
-    void Update()
+    private void Update()
     {
         if (player != null)
         {
-            float distanceToPlayer = Vector2.Distance(transform.position, player.position);
+            UpdatePlayerVisibility();
 
-            // Check if the player is within the detection range
-            if (distanceToPlayer <= detectionRange)
+            if (playerVisible)
             {
-                Vector2 direction = (player.position - transform.position).normalized;
-
-                // Check for nearby enemies
-                Collider2D[] nearbyEnemies = Physics2D.OverlapCircleAll(transform.position, avoidanceRange);
-                Vector2 avoidanceMove = Vector2.zero;
-
-                foreach (Collider2D enemy in nearbyEnemies)
-                {
-                    if (enemy.gameObject != gameObject) // Exclude self
-                    {
-                        Vector2 avoidDir = (transform.position - enemy.transform.position).normalized;
-                        avoidanceMove += avoidDir;
-                    }
-                }
-
-                direction += avoidanceMove; // Add avoidance move
-
-                rb.velocity = direction.normalized * moveSpeed;
+                MoveTowardsPlayer();
             }
             else
             {
-                // If the player is outside the detection range, stop moving
-                rb.velocity = Vector2.zero;
+                MoveTowardsLastKnownPosition();
             }
         }
+        else
+        {
+            Debug.LogWarning("No GameObject with the tag 'Player' found.");
+        }
+    }
+
+    private void UpdatePlayerVisibility()
+    {
+        // Check if player is visible
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, (Vector2)(player.transform.position - transform.position), raycastDistance);
+        if (hit.collider != null && hit.collider.CompareTag("Player"))
+        {
+            playerVisible = true;
+        }
+        else
+        {
+            playerVisible = false;
+        }
+    }
+
+    private void MoveTowardsPlayer()
+    {
+        Vector2 direction = (player.transform.position - transform.position).normalized;
+        transform.position += (Vector3)direction * moveSpeed * Time.deltaTime;
+    }
+
+    private void MoveTowardsLastKnownPosition()
+    {
+        // Move towards the last known player position
+        Vector2 direction = (player.transform.position - transform.position).normalized;
+        transform.position += (Vector3)direction * moveSpeed * Time.deltaTime;
     }
 }
