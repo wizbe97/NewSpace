@@ -6,7 +6,7 @@ public class PlayerKnockback : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("PlayerDamageCollider"))
         {
             // Calculate knockback direction
             Vector2 knockbackDirection = (other.transform.position - transform.position).normalized;

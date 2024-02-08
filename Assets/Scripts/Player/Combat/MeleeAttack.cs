@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class MeleeAttack : MonoBehaviour
 {
-    public int damage = 20;
+    [SerializeField] private int damage = 20;
 
     private void OnTriggerEnter2D(Collider2D other)
     {

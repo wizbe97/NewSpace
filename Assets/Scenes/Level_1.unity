@@ -783,11 +783,15 @@ PrefabInstance:
       objectReference: {fileID: 2002862431}
     - target: {fileID: 1709359296016800447, guid: 00d769796f6d8fa42973110d9c4fb9cc, type: 3}
       propertyPath: knockbackForce
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1709359296016800447, guid: 00d769796f6d8fa42973110d9c4fb9cc, type: 3}
       propertyPath: knockbackDuration
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2231608925559530346, guid: 00d769796f6d8fa42973110d9c4fb9cc, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4503310496963877519, guid: 00d769796f6d8fa42973110d9c4fb9cc, type: 3}
       propertyPath: knockbackForce

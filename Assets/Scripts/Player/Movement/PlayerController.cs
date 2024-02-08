@@ -39,13 +39,17 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public float moveSpeed = 3f;
+    [Header("Core Settings")]
+    [SerializeField] private float moveSpeed = 3f;
 
-    public float attackCooldown = 0.5f; // Cooldown time between attacks
+    [Header("Attack Settings")]
+    [SerializeField] private float attackCooldown = 0.5f; // Cooldown time between attacks
+    [SerializeField] private float attackRange = 1.5f;
+
     private float lastAttackTime;
     private Vector2 attackDirection;
     public Collider2D attackCollider;
-    public float attackRange = 1.5f;
+    private string currentWeapon;
 
 
 
@@ -58,7 +62,6 @@ public class PlayerController : MonoBehaviour
 
     private bool stateLock = false;
     private bool canMove = true;
-    private string currentWeapon;
 
     void Start()
     {
@@ -108,31 +111,47 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void OnCombat()
+void OnCombat()
+{
+    if (currentWeapon == "wrench")
     {
-        if (currentWeapon == "wrench")
+        if (Time.time - lastAttackTime >= attackCooldown)
         {
-            if (Time.time - lastAttackTime >= attackCooldown)
-            {
-                Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+            Vector2 attackDirection = (mousePosition - transform.position).normalized;
+            animator.SetFloat("xMove", attackDirection.x);
+            animator.SetFloat("yMove", attackDirection.y);
 
-                Vector2 attackDirection = (mousePosition - transform.position).normalized;
+            currentState = PlayerStates.ATTACK;
+            lastAttackTime = Time.time;
 
-                animator.SetFloat("xMove", attackDirection.x);
-                animator.SetFloat("yMove", attackDirection.y);
-
-                currentState = PlayerStates.ATTACK;
-
-                lastAttackTime = Time.time;
-            }
+            // Start a coroutine to manage the attack collider's activation with a delay
+            StartCoroutine(ActivateAttackColliderWithDelay());
         }
     }
+}
+
+IEnumerator ActivateAttackColliderWithDelay()
+{
+    // Wait for a short delay before activating the collider
+    yield return new WaitForSeconds(0.25f);
+
+    // Enable the collider
+    attackCollider.enabled = true;
+
+    // Wait for 0.1 seconds
+    yield return new WaitForSeconds(0.1f);
+
+    // Disable the collider
+    attackCollider.enabled = false;
+}
+
+
 
     void OnAttackStart()
     {
         // Triggered when the attack animation starts
         UpdateAttackColliderPosition();
-        attackCollider.enabled = true; // Enable the collider
     }
 
     void OnAttackFinished()
@@ -160,5 +179,4 @@ public class PlayerController : MonoBehaviour
         attackCollider.transform.position = newPosition;
     }
 
-    
 }

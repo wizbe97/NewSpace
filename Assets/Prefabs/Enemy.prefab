@@ -16,7 +16,6 @@ GameObject:
   - component: {fileID: 9124173653043267406}
   - component: {fileID: 1124093133684639251}
   - component: {fileID: 7715508740454696552}
-  - component: {fileID: -5215020257056185157}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -191,6 +190,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 10
   attackRange: 2
+  knockbackForce: 500
 --- !u!114 &1124093133684639251
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -226,19 +226,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &-5215020257056185157
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2365589542711418744}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87408fc84406f1e46a4cdc7cadc68d0a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  knockbackForce: 25
 --- !u!1 &3042203146103653530
 GameObject:
   m_ObjectHideFlags: 0
