@@ -46,7 +46,6 @@ public class PlayerController : MonoBehaviour
     private Vector2 attackDirection;
     public Collider2D attackCollider;
     public float attackRange = 1.5f;
-    public MeleeAttack meleeAttack;
 
 
 
@@ -67,8 +66,6 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         attackCollider.enabled = false;
         currentWeapon = "wrench";
-        meleeAttack = GetComponentInChildren<MeleeAttack>();
-
 
     }
 
@@ -128,9 +125,7 @@ public class PlayerController : MonoBehaviour
 
                 lastAttackTime = Time.time;
             }
-
         }
-        
     }
 
     void OnAttackStart()
