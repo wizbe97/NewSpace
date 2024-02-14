@@ -8,7 +8,9 @@ public class PlayerController : MonoBehaviour
     {
         IDLE,
         WALK,
-        ATTACK
+        ATTACK,
+        RUN,
+        DIE
     }
 
     PlayerStates currentState
@@ -28,8 +30,17 @@ public class PlayerController : MonoBehaviour
                         animator.Play("Walk");
                         canMove = true;
                         break;
+                    case PlayerStates.RUN:
+                        animator.Play("Run");
+                        canMove = true;
+                        break;
                     case PlayerStates.ATTACK:
                         animator.Play("Attack");
+                        stateLock = true;
+                        canMove = false;
+                        break;
+                    case PlayerStates.DIE:
+                        animator.Play("Die");
                         stateLock = true;
                         canMove = false;
                         break;
@@ -62,6 +73,7 @@ public class PlayerController : MonoBehaviour
 
     private bool stateLock = false;
     private bool canMove = true;
+
 
     void Start()
     {
@@ -99,9 +111,18 @@ public class PlayerController : MonoBehaviour
             {
                 if (moveInput != Vector2.zero)
                 {
-                    currentState = PlayerStates.WALK;
-                    animator.SetFloat("xMove", moveInput.x);
-                    animator.SetFloat("yMove", moveInput.y);
+                    if (moveSpeed <= 3)
+                    {
+                        currentState = PlayerStates.WALK;
+                        animator.SetFloat("xMove", moveInput.x);
+                        animator.SetFloat("yMove", moveInput.y);
+                    }
+                    else
+                    {
+                        currentState = PlayerStates.RUN;
+                        animator.SetFloat("xMove", moveInput.x);
+                        animator.SetFloat("yMove", moveInput.y);
+                    }
                 }
                 else
                 {
@@ -111,40 +132,40 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-void OnCombat()
-{
-    if (currentWeapon == "wrench")
+    void OnCombat()
     {
-        if (Time.time - lastAttackTime >= attackCooldown)
+        if (currentWeapon == "wrench")
         {
-            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
-            Vector2 attackDirection = (mousePosition - transform.position).normalized;
-            animator.SetFloat("xMove", attackDirection.x);
-            animator.SetFloat("yMove", attackDirection.y);
+            if (Time.time - lastAttackTime >= attackCooldown)
+            {
+                Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+                Vector2 attackDirection = (mousePosition - transform.position).normalized;
+                animator.SetFloat("xMove", attackDirection.x);
+                animator.SetFloat("yMove", attackDirection.y);
 
-            currentState = PlayerStates.ATTACK;
-            lastAttackTime = Time.time;
+                currentState = PlayerStates.ATTACK;
+                lastAttackTime = Time.time;
 
-            // Start a coroutine to manage the attack collider's activation with a delay
-            StartCoroutine(ActivateAttackColliderWithDelay());
+                // Start a coroutine to manage the attack collider's activation with a delay
+                StartCoroutine(ActivateAttackColliderWithDelay());
+            }
         }
     }
-}
 
-IEnumerator ActivateAttackColliderWithDelay()
-{
-    // Wait for a short delay before activating the collider
-    yield return new WaitForSeconds(0.25f);
+    IEnumerator ActivateAttackColliderWithDelay()
+    {
+        // Wait for a short delay before activating the collider
+        yield return new WaitForSeconds(0.25f);
 
-    // Enable the collider
-    attackCollider.enabled = true;
+        // Enable the collider
+        attackCollider.enabled = true;
 
-    // Wait for 0.1 seconds
-    yield return new WaitForSeconds(0.1f);
+        // Wait for 0.1 seconds
+        yield return new WaitForSeconds(0.1f);
 
-    // Disable the collider
-    attackCollider.enabled = false;
-}
+        // Disable the collider
+        attackCollider.enabled = false;
+    }
 
 
 
@@ -154,14 +175,24 @@ IEnumerator ActivateAttackColliderWithDelay()
         UpdateAttackColliderPosition();
     }
 
+
     void OnAttackFinished()
     {
         stateLock = false;
         if (moveInput != Vector2.zero)
         {
-            currentState = PlayerStates.WALK;
-            animator.SetFloat("xMove", moveInput.x);
-            animator.SetFloat("yMove", moveInput.y);
+            if (moveSpeed <= 5)
+            {
+                currentState = PlayerStates.WALK;
+                animator.SetFloat("xMove", moveInput.x);
+                animator.SetFloat("yMove", moveInput.y);
+            }
+            else
+            {
+                currentState = PlayerStates.RUN;
+                animator.SetFloat("xMove", moveInput.x);
+                animator.SetFloat("yMove", moveInput.y);
+            }
         }
         else
         {
@@ -170,6 +201,7 @@ IEnumerator ActivateAttackColliderWithDelay()
         attackCollider.enabled = false; // Disable the collider
     }
 
+
     void UpdateAttackColliderPosition()
     {
         // Calculate the new position based on the attack direction
@@ -177,6 +209,11 @@ IEnumerator ActivateAttackColliderWithDelay()
 
         // Set the collider's position
         attackCollider.transform.position = newPosition;
+    }
+
+    public void TriggerDeath()
+    {
+        currentState = PlayerStates.DIE;
     }
 
 }

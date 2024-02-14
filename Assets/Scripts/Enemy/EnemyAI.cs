@@ -7,16 +7,26 @@ public class EnemyAI : MonoBehaviour
 
     private GameObject player;
     private bool playerVisible = false;
+    private bool playerAlive = true;
 
     private void Start()
     {
         // Find the GameObject with the "Player" tag
         player = GameObject.FindGameObjectWithTag("Player");
+
+        // Subscribe to the OnPlayerDeath event
+        PlayerHealth.OnPlayerDeath += PlayerDied;
+    }
+
+    private void OnDestroy()
+    {
+        // Unsubscribe from the OnPlayerDeath event when this object is destroyed
+        PlayerHealth.OnPlayerDeath -= PlayerDied;
     }
 
     private void Update()
     {
-        if (player != null)
+        if (playerAlive && player != null)
         {
             UpdatePlayerVisibility();
 
@@ -57,8 +67,16 @@ public class EnemyAI : MonoBehaviour
 
     private void MoveTowardsLastKnownPosition()
     {
-        // Move towards the last known player position
-        Vector2 direction = (player.transform.position - transform.position).normalized;
-        transform.position += (Vector3)direction * moveSpeed * Time.deltaTime;
+        if (player != null)
+        {
+            Vector2 direction = (player.transform.position - transform.position).normalized;
+            transform.position += (Vector3)direction * moveSpeed * Time.deltaTime;
+        }
+    }
+
+    // Method to handle player death
+    private void PlayerDied()
+    {
+        playerAlive = false;
     }
 }

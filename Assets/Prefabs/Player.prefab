@@ -103,7 +103,7 @@ GameObject:
   - component: {fileID: 6844404299469582840}
   - component: {fileID: 1273286835666557948}
   - component: {fileID: 4503310496963877519}
-  - component: {fileID: 1709359296016800447}
+  - component: {fileID: 6411811928794033898}
   m_Layer: 0
   m_Name: MeleeCollider
   m_TagString: DefaultMeleeAttack
@@ -184,7 +184,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 20
---- !u!114 &1709359296016800447
+--- !u!114 &6411811928794033898
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -193,7 +193,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3858362567553692611}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 182c8f59483ffeb4a87e8310f6f7357b, type: 3}
+  m_Script: {fileID: 11500000, guid: b4ecdac06bef3e84f8f1d8a916250105, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   knockbackForce: 10
@@ -417,10 +417,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 3
   attackCooldown: 0.5
-  attackCollider: {fileID: 1273286835666557948}
   attackRange: 1
-  meleeAttack: {fileID: 0}
-  canMove: 1
+  attackCollider: {fileID: 1273286835666557948}
 --- !u!114 &2112377841153382773
 MonoBehaviour:
   m_ObjectHideFlags: 0
