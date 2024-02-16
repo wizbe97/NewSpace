@@ -72,7 +72,7 @@ public class PlayerController : MonoBehaviour
     private PlayerStates currentStateValue;
 
     private bool stateLock = false;
-    private bool canMove = true;
+    public bool canMove = true;
 
 
     void Start()
@@ -95,10 +95,6 @@ public class PlayerController : MonoBehaviour
         {
             rb.velocity = moveInput * moveSpeed;
         }
-        else
-        {
-            rb.velocity = Vector2.zero;
-        }
     }
 
     private void OnMove(InputValue value)
@@ -111,15 +107,15 @@ public class PlayerController : MonoBehaviour
             {
                 if (moveInput != Vector2.zero)
                 {
-                    if (moveSpeed <= 3)
+                    if (moveSpeed > 3)
                     {
-                        currentState = PlayerStates.WALK;
+                        currentState = PlayerStates.RUN;
                         animator.SetFloat("xMove", moveInput.x);
                         animator.SetFloat("yMove", moveInput.y);
                     }
                     else
                     {
-                        currentState = PlayerStates.RUN;
+                        currentState = PlayerStates.WALK;
                         animator.SetFloat("xMove", moveInput.x);
                         animator.SetFloat("yMove", moveInput.y);
                     }
@@ -138,13 +134,13 @@ public class PlayerController : MonoBehaviour
         {
             if (Time.time - lastAttackTime >= attackCooldown)
             {
+                currentState = PlayerStates.ATTACK;
+                canMove = false;
+                lastAttackTime = Time.time;
                 Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
                 Vector2 attackDirection = (mousePosition - transform.position).normalized;
                 animator.SetFloat("xMove", attackDirection.x);
                 animator.SetFloat("yMove", attackDirection.y);
-
-                currentState = PlayerStates.ATTACK;
-                lastAttackTime = Time.time;
 
                 // Start a coroutine to manage the attack collider's activation with a delay
                 StartCoroutine(ActivateAttackColliderWithDelay());
@@ -165,6 +161,7 @@ public class PlayerController : MonoBehaviour
 
         // Disable the collider
         attackCollider.enabled = false;
+        canMove = true;
     }
 
 
@@ -181,15 +178,15 @@ public class PlayerController : MonoBehaviour
         stateLock = false;
         if (moveInput != Vector2.zero)
         {
-            if (moveSpeed <= 5)
+            if (moveSpeed > 3)
             {
-                currentState = PlayerStates.WALK;
+                currentState = PlayerStates.RUN;
                 animator.SetFloat("xMove", moveInput.x);
                 animator.SetFloat("yMove", moveInput.y);
             }
             else
             {
-                currentState = PlayerStates.RUN;
+                currentState = PlayerStates.WALK;
                 animator.SetFloat("xMove", moveInput.x);
                 animator.SetFloat("yMove", moveInput.y);
             }
