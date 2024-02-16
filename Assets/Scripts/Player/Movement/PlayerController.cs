@@ -95,6 +95,7 @@ public class PlayerController : MonoBehaviour
         {
             rb.velocity = moveInput * moveSpeed;
         }
+
     }
 
     private void OnMove(InputValue value)
@@ -134,6 +135,9 @@ public class PlayerController : MonoBehaviour
         {
             if (Time.time - lastAttackTime >= attackCooldown)
             {
+                // Store the current velocity before the attack
+                Vector2 preAttackVelocity = rb.velocity;
+
                 currentState = PlayerStates.ATTACK;
                 canMove = false;
                 lastAttackTime = Time.time;
@@ -144,9 +148,29 @@ public class PlayerController : MonoBehaviour
 
                 // Start a coroutine to manage the attack collider's activation with a delay
                 StartCoroutine(ActivateAttackColliderWithDelay());
+
+                // Restore the pre-attack velocity after a short delay
+                StartCoroutine(RestoreVelocityAfterAttack(preAttackVelocity, "Attack"));
             }
         }
     }
+
+    IEnumerator RestoreVelocityAfterAttack(Vector2 preAttackVelocity, string animationState)
+    {
+        // Wait until the attack animation finishes
+        while (animator.GetCurrentAnimatorStateInfo(0).IsName(animationState))
+        {
+            yield return null;
+        }
+
+        // Restore the pre-attack velocity
+        rb.velocity = preAttackVelocity;
+
+        // Allow movement again
+        canMove = true;
+    }
+
+
 
     IEnumerator ActivateAttackColliderWithDelay()
     {
