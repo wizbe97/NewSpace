@@ -1280,7 +1280,7 @@ GameObject:
   - component: {fileID: 6868591083575596090}
   - component: {fileID: 8108526185827767625}
   - component: {fileID: 8895195043763452934}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: MeleeCollider
   m_TagString: DefaultMeleeAttack
   m_Icon: {fileID: 0}
