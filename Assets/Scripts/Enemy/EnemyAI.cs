@@ -62,7 +62,7 @@ public class EnemyAI : MonoBehaviour
     private void MoveTowardsPlayer()
     {
         Vector2 direction = (player.transform.position - transform.position).normalized;
-        transform.position += (Vector3)direction * moveSpeed * Time.deltaTime;
+        transform.position += moveSpeed * Time.deltaTime * (Vector3)direction;
     }
 
     private void MoveTowardsLastKnownPosition()
@@ -70,7 +70,7 @@ public class EnemyAI : MonoBehaviour
         if (player != null)
         {
             Vector2 direction = (player.transform.position - transform.position).normalized;
-            transform.position += (Vector3)direction * moveSpeed * Time.deltaTime;
+            transform.position += moveSpeed * Time.deltaTime * (Vector3)direction;
         }
     }
 

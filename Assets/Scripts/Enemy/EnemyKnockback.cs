@@ -1,9 +1,10 @@
+using System.Collections;
 using UnityEngine;
 
 public class EnemyKnockback : MonoBehaviour
 {
-    public float knockbackForce = 10f;
-    public float knockbackDuration = 0.5f; // Adjust this value as needed
+    public float knockbackForce = 5f;
+    public float knockbackDuration = 0.25f; // Adjust this value as needed
     private PlayerController playerController;
 
     private void Start()
@@ -19,21 +20,27 @@ public class EnemyKnockback : MonoBehaviour
             Vector2 knockbackDirection = (other.transform.position - transform.position).normalized;
 
             // Apply knockback force to the player
-            Rigidbody2D playerRigidbody = other.GetComponent<Rigidbody2D>();
-            if (playerRigidbody != null)
-            {
-                playerController.canMove = false; // Disable player movement
-                playerRigidbody.velocity = Vector2.zero; // Reset velocity before applying knockback
-                playerRigidbody.AddForce(knockbackDirection * knockbackForce, ForceMode2D.Impulse);
-
-                // Re-enable movement after a delay
-                Invoke("EnablePlayerMovement", knockbackDuration);
-            }
+            playerController.canMove = false; // Disable player movement
+            Vector2 knockbackVector = knockbackDirection * knockbackForce;
+            StartCoroutine(ApplyKnockback(other.transform, knockbackVector / 2, knockbackDuration));
         }
     }
 
-    void EnablePlayerMovement()
+    IEnumerator ApplyKnockback(Transform playerTransform, Vector2 knockbackVector, float duration)
     {
+        float timer = 0f;
+        while (timer < duration)
+        {
+            // Move the player in the knockback direction over time
+            playerTransform.position += (Vector3)knockbackVector * Time.deltaTime;
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
         playerController.canMove = true; // Re-enable player movement
+                                         // Update animation state based on movement input
+
+        playerController.UpdateAnimationState(playerController.moveInput);
+
     }
 }

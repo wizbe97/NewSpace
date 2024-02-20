@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
         DIE
     }
 
-    PlayerStates currentState
+    public PlayerStates currentState
     {
         set
         {
@@ -51,7 +51,7 @@ public class PlayerController : MonoBehaviour
     }
 
     [Header("Core Settings")]
-    [SerializeField] private float moveSpeed = 3f;
+    [SerializeField] public float moveSpeed = 3f;
 
     [Header("Attack Settings")]
     [SerializeField] private float attackCooldown = 0.5f; // Cooldown time between attacks
@@ -64,16 +64,15 @@ public class PlayerController : MonoBehaviour
 
 
 
-    private Vector2 moveInput = Vector2.zero;
+    public Vector2 moveInput = Vector2.zero;
 
     private Rigidbody2D rb;
-    private Animator animator;
+    public Animator animator;
 
-    private PlayerStates currentStateValue;
+    public PlayerStates currentStateValue;
 
     private bool stateLock = false;
     public bool canMove = true;
-
 
     void Start()
     {
@@ -95,6 +94,10 @@ public class PlayerController : MonoBehaviour
         {
             rb.velocity = moveInput * moveSpeed;
         }
+        else
+        {
+            rb.velocity = Vector2.zero;
+        }
 
     }
 
@@ -102,30 +105,9 @@ public class PlayerController : MonoBehaviour
     {
         moveInput = value.Get<Vector2>();
 
-        if (canMove)
+        if (canMove && currentStateValue != PlayerStates.ATTACK)
         {
-            if (currentStateValue != PlayerStates.ATTACK)
-            {
-                if (moveInput != Vector2.zero)
-                {
-                    if (moveSpeed > 3)
-                    {
-                        currentState = PlayerStates.RUN;
-                        animator.SetFloat("xMove", moveInput.x);
-                        animator.SetFloat("yMove", moveInput.y);
-                    }
-                    else
-                    {
-                        currentState = PlayerStates.WALK;
-                        animator.SetFloat("xMove", moveInput.x);
-                        animator.SetFloat("yMove", moveInput.y);
-                    }
-                }
-                else
-                {
-                    currentState = PlayerStates.IDLE;
-                }
-            }
+            UpdateAnimationState(moveInput);
         }
     }
 
@@ -200,6 +182,29 @@ public class PlayerController : MonoBehaviour
     void OnAttackFinished()
     {
         stateLock = false;
+        UpdateAnimationState(moveInput);
+        attackCollider.enabled = false; // Disable the collider
+    }
+
+
+
+    void UpdateAttackColliderPosition()
+    {
+        // Calculate the new position based on the attack direction
+        Vector3 newPosition = transform.position + (Vector3)attackDirection.normalized * attackRange;
+
+        // Set the collider's position
+        attackCollider.transform.position = newPosition;
+    }
+
+    public void TriggerDeath()
+    {
+        stateLock = false;
+        currentState = PlayerStates.DIE;
+    }
+
+    public void UpdateAnimationState(Vector2 moveInput)
+    {
         if (moveInput != Vector2.zero)
         {
             if (moveSpeed > 3)
@@ -219,22 +224,6 @@ public class PlayerController : MonoBehaviour
         {
             currentState = PlayerStates.IDLE;
         }
-        attackCollider.enabled = false; // Disable the collider
-    }
-
-
-    void UpdateAttackColliderPosition()
-    {
-        // Calculate the new position based on the attack direction
-        Vector3 newPosition = transform.position + (Vector3)attackDirection.normalized * attackRange;
-
-        // Set the collider's position
-        attackCollider.transform.position = newPosition;
-    }
-
-    public void TriggerDeath()
-    {
-        currentState = PlayerStates.DIE;
     }
 
 }
