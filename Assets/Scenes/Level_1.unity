@@ -923,6 +923,8 @@ GameObject:
   - component: {fileID: 8884618262469636905}
   - component: {fileID: 4894275371571277418}
   - component: {fileID: 6028368161068078771}
+  - component: {fileID: 8884618262469636907}
+  - component: {fileID: 8884618262469636908}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -1031,11 +1033,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  attackCooldown: 0.5
-  attackRange: 1
-  attackCollider: {fileID: 6868591083575596090}
   moveInput: {x: 0, y: 0}
+  rb: {fileID: 0}
   animator: {fileID: 0}
+  currentStateValue: 0
+  stateLock: 0
   canMove: 1
 --- !u!20 &5600928801171518122
 Camera:
@@ -1302,6 +1304,34 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.62161815, y: 1.0761441}
   m_EdgeRadius: 0
+--- !u!114 &8884618262469636907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1608216977291277413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a6061e1458c9a747bd6dbe34f0c7f7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackCooldown: 0.5
+  attackRange: 1.5
+  attackCollider: {fileID: 6868591083575596090}
+  currentWeapon: 
+--- !u!114 &8884618262469636908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1608216977291277413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fc168ce7e10c5949bedbeedb8cc0678, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8895195043763452933
 GameObject:
   m_ObjectHideFlags: 0
