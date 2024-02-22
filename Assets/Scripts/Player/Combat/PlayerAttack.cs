@@ -27,11 +27,7 @@ public class PlayerAttack : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        attackDirection = new Vector2(playerController.animator.GetFloat("xMove"), playerController.animator.GetFloat("yMove"));
 
-    }
 
     public void Attack()
     {

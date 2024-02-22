@@ -8,8 +8,8 @@ public class WeaponKnockback : MonoBehaviour
     {
         if (other.CompareTag("Enemy"))
         {
-            // Calculate knockback direction
-            Vector2 knockbackDirection = (other.transform.position - transform.position).normalized;
+            // Calculate knockback direction based on mouse position
+            Vector2 knockbackDirection = (GetMouseWorldPosition() - (Vector2)other.transform.position).normalized;
 
             // Apply knockback force to the enemy
             Rigidbody2D enemyRigidbody = other.GetComponent<Rigidbody2D>();
@@ -19,5 +19,11 @@ public class WeaponKnockback : MonoBehaviour
                 enemyRigidbody.AddForce(knockbackDirection * knockbackForce, ForceMode2D.Impulse);
             }
         }
+    }
+
+    // Function to get mouse position in world coordinates
+    private Vector2 GetMouseWorldPosition()
+    {
+        return Camera.main.ScreenToWorldPoint(Input.mousePosition);
     }
 }

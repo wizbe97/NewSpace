@@ -11,12 +11,16 @@ public class Wrench : MonoBehaviour
 
     [SerializeField] private int damage = 20;
 
-
-
     void Start()
     {
         playerAttack = GetComponentInParent<PlayerAttack>();
         playerController = GetComponentInParent<PlayerController>();
+
+    }
+
+    void Update()
+    {
+        playerAttack.attackDirection = new Vector2(playerController.animator.GetFloat("xMove"), playerController.animator.GetFloat("yMove"));
 
     }
 
