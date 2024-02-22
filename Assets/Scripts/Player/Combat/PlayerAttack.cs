@@ -6,14 +6,16 @@ using UnityEngine.InputSystem;
 public class PlayerAttack : MonoBehaviour
 {
     PlayerController playerController;
+    Wrench wrench;
 
 
-    [SerializeField] private float attackCooldown = 0.5f; // Cooldown time between attacks
-    [SerializeField] private float attackRange = 1.5f;
-    private float lastAttackTime;
-    private Vector2 attackDirection;
-    [SerializeField] private Collider2D attackCollider;
+    [SerializeField] public float attackCooldown = 0.5f; // Cooldown time between attacks
+    [SerializeField] public float attackRange = 1.5f;
+    public float lastAttackTime;
+    public Vector2 attackDirection;
+    [SerializeField] public Collider2D attackCollider;
     public string currentWeapon;
+
 
     // Start is called before the first frame update
     void Start()
@@ -21,42 +23,18 @@ public class PlayerAttack : MonoBehaviour
         playerController = GetComponent<PlayerController>();
         attackCollider.enabled = false;
         currentWeapon = "wrench";
+        wrench = GetComponentInChildren<Wrench>();
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        attackDirection = new Vector2(playerController.animator.GetFloat("xMove"), playerController.animator.GetFloat("yMove"));
 
-    }
 
     public void Attack()
     {
-        if (currentWeapon == "wrench")
-        {
-            if (Time.time - lastAttackTime >= attackCooldown)
-            {
-                // Store the current velocity before the attack
-                Vector2 preAttackVelocity = playerController.rb.velocity;
-
-                playerController.currentState = PlayerController.PlayerStates.ATTACK;
-                playerController.canMove = false;
-                lastAttackTime = Time.time;
-                Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
-                Vector2 attackDirection = (mousePosition - transform.position).normalized;
-                playerController.animator.SetFloat("xMove", attackDirection.x);
-                playerController.animator.SetFloat("yMove", attackDirection.y);
-
-                // Start a coroutine to manage the attack collider's activation with a delay
-                StartCoroutine(ActivateAttackColliderWithDelay());
-
-                // Restore the pre-attack velocity after a short delay
-                StartCoroutine(RestoreVelocityAfterAttack(preAttackVelocity, "Attack"));
-            }
-        }
+        wrench.Attack();
     }
 
-    private IEnumerator RestoreVelocityAfterAttack(Vector2 preAttackVelocity, string animationState)
+    public IEnumerator RestoreVelocityAfterAttack(Vector2 preAttackVelocity, string animationState)
     {
         // Wait until the attack animation finishes
         while (playerController.animator.GetCurrentAnimatorStateInfo(0).IsName(animationState))
@@ -71,7 +49,7 @@ public class PlayerAttack : MonoBehaviour
         playerController.canMove = true;
     }
 
-    private IEnumerator ActivateAttackColliderWithDelay()
+    public IEnumerator ActivateAttackColliderWithDelay()
     {
         // Wait for a short delay before activating the collider
         yield return new WaitForSeconds(0.25f);
@@ -87,14 +65,14 @@ public class PlayerAttack : MonoBehaviour
         playerController.canMove = true;
     }
 
-    void OnAttackFinished()
+    public void OnAttackFinished()
     {
         playerController.stateLock = false;
         playerController.UpdateAnimationState(playerController.moveInput);
         attackCollider.enabled = false; // Disable the collider
     }
 
-    void UpdateAttackColliderPosition()
+    public void UpdateAttackColliderPosition()
     {
         // Calculate the new position based on the attack direction
         Vector3 newPosition = transform.position + (Vector3)attackDirection.normalized * attackRange;
@@ -103,7 +81,7 @@ public class PlayerAttack : MonoBehaviour
         attackCollider.transform.position = newPosition;
     }
 
-    void OnAttackStart()
+    public void OnAttackStart()
     {
         // Triggered when the attack animation starts
         UpdateAttackColliderPosition();

@@ -417,6 +417,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackCooldown: 0.5
   attackRange: 1.5
+  lastAttackTime: 0
+  attackDirection: {x: 0, y: 0}
   attackCollider: {fileID: 591729053861388038}
   currentWeapon: 
 --- !u!114 &7273549551640725354
@@ -441,8 +443,8 @@ GameObject:
   m_Component:
   - component: {fileID: 138583101188001138}
   - component: {fileID: 591729053861388038}
-  - component: {fileID: 1829622890714180432}
   - component: {fileID: 8110237051835432728}
+  - component: {fileID: 1221539887315937105}
   m_Layer: 6
   m_Name: MeleeCollider
   m_TagString: DefaultMeleeAttack
@@ -510,19 +512,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &1829622890714180432
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8771571262485074747}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62ce59446422b8c4c8e575a892e6b885, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 20
 --- !u!114 &8110237051835432728
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -536,3 +525,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   knockbackForce: 10
+--- !u!114 &1221539887315937105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8771571262485074747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88bde904c5c41724b91f90a5d68cbe00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 20
