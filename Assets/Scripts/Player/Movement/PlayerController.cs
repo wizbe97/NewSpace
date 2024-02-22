@@ -49,12 +49,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    [Header("Core Settings")]
     [SerializeField] public float moveSpeed = 3f;
-
-    [Header("Attack Settings")]
-
-
     public Vector2 moveInput = Vector2.zero;
 
     public Rigidbody2D rb;
@@ -84,12 +79,6 @@ public class PlayerController : MonoBehaviour
             rb.velocity = Vector2.zero;
         }
 
-    }
-
-    public void TriggerDeath()
-    {
-        stateLock = false;
-        currentState = PlayerStates.DIE;
     }
 
     public void UpdateAnimationState(Vector2 moveInput)

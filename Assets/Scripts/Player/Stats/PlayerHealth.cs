@@ -42,7 +42,7 @@ public class PlayerHealth : MonoBehaviour
     {
         Debug.Log("Player has died!");
         // Trigger the death animation and state in the PlayerController
-        playerController.TriggerDeath();
+        TriggerDeath();
 
         // Invoke the OnPlayerDeath event
         OnPlayerDeath?.Invoke();
@@ -62,5 +62,11 @@ public class PlayerHealth : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+        private void TriggerDeath()
+    {
+        playerController.stateLock = false;
+        playerController.currentState = PlayerController.PlayerStates.DIE;
     }
 }
