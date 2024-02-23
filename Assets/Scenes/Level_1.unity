@@ -481,6 +481,16 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1018530859}
   m_CullTransparentMesh: 1
+--- !u!95 &1309475514 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 2089732443062990355, guid: 00d769796f6d8fa42973110d9c4fb9cc, type: 3}
+  m_PrefabInstance: {fileID: 5401339329359328356}
+  m_PrefabAsset: {fileID: 0}
+--- !u!50 &1309475516 stripped
+Rigidbody2D:
+  m_CorrespondingSourceObject: {fileID: 1430370279283202254, guid: 00d769796f6d8fa42973110d9c4fb9cc, type: 3}
+  m_PrefabInstance: {fileID: 5401339329359328356}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1330314052
 GameObject:
   m_ObjectHideFlags: 0
@@ -766,6 +776,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2676010112116833831, guid: 00d769796f6d8fa42973110d9c4fb9cc, type: 3}
+      propertyPath: rb
+      value: 
+      objectReference: {fileID: 1309475516}
+    - target: {fileID: 2676010112116833831, guid: 00d769796f6d8fa42973110d9c4fb9cc, type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 1309475514}
     - target: {fileID: 5040522287707846814, guid: 00d769796f6d8fa42973110d9c4fb9cc, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

@@ -26,43 +26,15 @@ public class PlayerAttack : MonoBehaviour
         wrench = GetComponentInChildren<Wrench>();
     }
 
-    // Update is called once per frame
-
-
     public void Attack()
     {
         wrench.Attack();
     }
 
-    public IEnumerator RestoreVelocityAfterAttack(Vector2 preAttackVelocity, string animationState)
+    public void OnAttackStart()
     {
-        // Wait until the attack animation finishes
-        while (playerController.animator.GetCurrentAnimatorStateInfo(0).IsName(animationState))
-        {
-            yield return null;
-        }
-
-        // Restore the pre-attack velocity
-        playerController.rb.velocity = preAttackVelocity;
-
-        // Allow movement again
-        playerController.canMove = true;
-    }
-
-    public IEnumerator ActivateAttackColliderWithDelay()
-    {
-        // Wait for a short delay before activating the collider
-        yield return new WaitForSeconds(0.25f);
-
-        // Enable the collider
-        attackCollider.enabled = true;
-
-        // Wait for 0.1 seconds
-        yield return new WaitForSeconds(0.1f);
-
-        // Disable the collider
-        attackCollider.enabled = false;
-        playerController.canMove = true;
+        // Triggered when the attack animation starts
+        UpdateAttackColliderPosition();
     }
 
     public void OnAttackFinished()
@@ -80,12 +52,5 @@ public class PlayerAttack : MonoBehaviour
         // Set the collider's position
         attackCollider.transform.position = newPosition;
     }
-
-    public void OnAttackStart()
-    {
-        // Triggered when the attack animation starts
-        UpdateAttackColliderPosition();
-    }
-
 
 }

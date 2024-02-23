@@ -42,10 +42,10 @@ public class Wrench : MonoBehaviour
                 playerController.animator.SetFloat("yMove", attackDirection.y);
 
                 // Start a coroutine to manage the attack collider's activation with a delay
-                StartCoroutine(playerAttack.ActivateAttackColliderWithDelay());
+                StartCoroutine(ActivateAttackColliderWithDelay());
 
                 // Restore the pre-attack velocity after a short delay
-                StartCoroutine(playerAttack.RestoreVelocityAfterAttack(preAttackVelocity, "Attack"));
+                StartCoroutine(RestoreVelocityAfterAttack(preAttackVelocity, "Attack"));
             }
         }
     }
@@ -61,5 +61,35 @@ public class Wrench : MonoBehaviour
                 enemyHealth.TakeDamage(damage);
             }
         }
+    }
+
+        public IEnumerator ActivateAttackColliderWithDelay()
+    {
+        // Wait for a short delay before activating the collider
+        yield return new WaitForSeconds(0.25f);
+
+        // Enable the collider
+        playerAttack.attackCollider.enabled = true;
+
+        // Wait for 0.1 seconds
+        yield return new WaitForSeconds(0.1f);
+
+        // Disable the collider
+        playerAttack.attackCollider.enabled = false;
+        playerController.canMove = true;
+    }
+    public IEnumerator RestoreVelocityAfterAttack(Vector2 preAttackVelocity, string animationState)
+    {
+        // Wait until the attack animation finishes
+        while (playerController.animator.GetCurrentAnimatorStateInfo(0).IsName(animationState))
+        {
+            yield return null;
+        }
+
+        // Restore the pre-attack velocity
+        playerController.rb.velocity = preAttackVelocity;
+
+        // Allow movement again
+        playerController.canMove = true;
     }
 }
