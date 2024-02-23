@@ -28,7 +28,10 @@ public class PlayerAttack : MonoBehaviour
 
     public void Attack()
     {
-        wrench.Attack();
+        if (currentWeapon == "wrench")
+        {
+            wrench.Attack();
+        }
     }
 
     public void OnAttackStart()

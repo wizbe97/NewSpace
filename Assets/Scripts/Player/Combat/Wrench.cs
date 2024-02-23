@@ -26,28 +26,27 @@ public class Wrench : MonoBehaviour
 
     public void Attack()
     {
-        if (playerAttack.currentWeapon == "wrench")
+
+        if (Time.time - playerAttack.lastAttackTime >= playerAttack.attackCooldown)
         {
-            if (Time.time - playerAttack.lastAttackTime >= playerAttack.attackCooldown)
-            {
-                // Store the current velocity before the attack
-                Vector2 preAttackVelocity = playerController.rb.velocity;
+            // Store the current velocity before the attack
+            Vector2 preAttackVelocity = playerController.rb.velocity;
 
-                playerController.currentState = PlayerController.PlayerStates.ATTACK;
-                playerController.canMove = false;
-                playerAttack.lastAttackTime = Time.time;
-                Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
-                Vector2 attackDirection = (mousePosition - transform.position).normalized;
-                playerController.animator.SetFloat("xMove", attackDirection.x);
-                playerController.animator.SetFloat("yMove", attackDirection.y);
+            playerController.currentState = PlayerController.PlayerStates.ATTACK;
+            playerController.canMove = false;
+            playerAttack.lastAttackTime = Time.time;
+            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+            Vector2 attackDirection = (mousePosition - transform.position).normalized;
+            playerController.animator.SetFloat("xMove", attackDirection.x);
+            playerController.animator.SetFloat("yMove", attackDirection.y);
 
-                // Start a coroutine to manage the attack collider's activation with a delay
-                StartCoroutine(ActivateAttackColliderWithDelay());
+            // Start a coroutine to manage the attack collider's activation with a delay
+            StartCoroutine(ActivateAttackColliderWithDelay());
 
-                // Restore the pre-attack velocity after a short delay
-                StartCoroutine(RestoreVelocityAfterAttack(preAttackVelocity, "Attack"));
-            }
+            // Restore the pre-attack velocity after a short delay
+            StartCoroutine(RestoreVelocityAfterAttack(preAttackVelocity, "Attack"));
         }
+
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -63,7 +62,7 @@ public class Wrench : MonoBehaviour
         }
     }
 
-        public IEnumerator ActivateAttackColliderWithDelay()
+    public IEnumerator ActivateAttackColliderWithDelay()
     {
         // Wait for a short delay before activating the collider
         yield return new WaitForSeconds(0.25f);
