@@ -123,6 +123,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!61 &105562927 stripped
+BoxCollider2D:
+  m_CorrespondingSourceObject: {fileID: 591729053861388038, guid: 00d769796f6d8fa42973110d9c4fb9cc, type: 3}
+  m_PrefabInstance: {fileID: 5401339329359328356}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &403285089
 GameObject:
   m_ObjectHideFlags: 0
@@ -776,6 +781,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1221539887315937105, guid: 00d769796f6d8fa42973110d9c4fb9cc, type: 3}
+      propertyPath: attackCollider
+      value: 
+      objectReference: {fileID: 105562927}
     - target: {fileID: 2676010112116833831, guid: 00d769796f6d8fa42973110d9c4fb9cc, type: 3}
       propertyPath: rb
       value: 
@@ -827,6 +836,10 @@ PrefabInstance:
     - target: {fileID: 8393313674150501436, guid: 00d769796f6d8fa42973110d9c4fb9cc, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 8771571262485074747, guid: 00d769796f6d8fa42973110d9c4fb9cc, type: 3}
+      propertyPath: m_Name
+      value: Wrench
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

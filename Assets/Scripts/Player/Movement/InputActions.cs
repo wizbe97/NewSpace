@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,7 +10,6 @@ public class InputActions : MonoBehaviour
     {
         playerController = GetComponent<PlayerController>();
         playerAttack = GetComponent<PlayerAttack>();
-
     }
 
     private void OnMove(InputValue value)

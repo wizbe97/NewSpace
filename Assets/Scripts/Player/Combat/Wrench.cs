@@ -3,31 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-
 public class Wrench : MonoBehaviour
 {
     PlayerAttack playerAttack;
     PlayerController playerController;
-
+    [SerializeField] public Collider2D attackCollider;
     [SerializeField] private int damage = 20;
+    [SerializeField] public float attackCooldown = 0.5f; // Cooldown time between attacks
+    [SerializeField] public float attackRange = 1.5f;
 
     void Start()
     {
         playerAttack = GetComponentInParent<PlayerAttack>();
         playerController = GetComponentInParent<PlayerController>();
-
+        attackCollider.enabled = false;
     }
 
-    void Update()
+    public void Attack(Vector2 attackDirection)
     {
-        playerAttack.attackDirection = new Vector2(playerController.animator.GetFloat("xMove"), playerController.animator.GetFloat("yMove"));
-
-    }
-
-    public void Attack()
-    {
-
-        if (Time.time - playerAttack.lastAttackTime >= playerAttack.attackCooldown)
+        if (Time.time - playerAttack.lastAttackTime >= attackCooldown)
         {
             // Store the current velocity before the attack
             Vector2 preAttackVelocity = playerController.rb.velocity;
@@ -35,10 +29,13 @@ public class Wrench : MonoBehaviour
             playerController.currentState = PlayerController.PlayerStates.ATTACK;
             playerController.canMove = false;
             playerAttack.lastAttackTime = Time.time;
-            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
-            Vector2 attackDirection = (mousePosition - transform.position).normalized;
+
+            // Set the animation parameters
             playerController.animator.SetFloat("xMove", attackDirection.x);
             playerController.animator.SetFloat("yMove", attackDirection.y);
+
+            // Update the attack collider's position based on the attack direction
+            UpdateAttackColliderPosition(attackDirection);
 
             // Start a coroutine to manage the attack collider's activation with a delay
             StartCoroutine(ActivateAttackColliderWithDelay());
@@ -46,7 +43,6 @@ public class Wrench : MonoBehaviour
             // Restore the pre-attack velocity after a short delay
             StartCoroutine(RestoreVelocityAfterAttack(preAttackVelocity, "Attack"));
         }
-
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -62,21 +58,31 @@ public class Wrench : MonoBehaviour
         }
     }
 
+    public void UpdateAttackColliderPosition(Vector2 attackDirection)
+    {
+        // Calculate the new position based on the attack direction
+        Vector3 newPosition = playerController.transform.position + (Vector3)attackDirection.normalized * attackRange;
+
+        // Set the collider's position
+        attackCollider.transform.position = newPosition;
+    }
+
     public IEnumerator ActivateAttackColliderWithDelay()
     {
         // Wait for a short delay before activating the collider
         yield return new WaitForSeconds(0.25f);
 
         // Enable the collider
-        playerAttack.attackCollider.enabled = true;
+        attackCollider.enabled = true;
 
         // Wait for 0.1 seconds
         yield return new WaitForSeconds(0.1f);
 
         // Disable the collider
-        playerAttack.attackCollider.enabled = false;
+        attackCollider.enabled = false;
         playerController.canMove = true;
     }
+
     public IEnumerator RestoreVelocityAfterAttack(Vector2 preAttackVelocity, string animationState)
     {
         // Wait until the attack animation finishes
