@@ -26,12 +26,15 @@ public class PlayerAttack : MonoBehaviour
         wrench = GetComponentInChildren<Wrench>();
     }
 
-    // Update is called once per frame
-
-
     public void Attack()
     {
         wrench.Attack();
+    }
+
+    public void OnAttackStart()
+    {
+        // Triggered when the attack animation starts
+        UpdateAttackColliderPosition();
     }
 
     public void OnAttackFinished()
@@ -49,12 +52,5 @@ public class PlayerAttack : MonoBehaviour
         // Set the collider's position
         attackCollider.transform.position = newPosition;
     }
-
-    public void OnAttackStart()
-    {
-        // Triggered when the attack animation starts
-        UpdateAttackColliderPosition();
-    }
-
 
 }
