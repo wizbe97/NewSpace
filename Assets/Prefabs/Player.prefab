@@ -162,10 +162,10 @@ GameObject:
   - component: {fileID: 5040522287707846814}
   - component: {fileID: 3874855333200539741}
   - component: {fileID: 1304496239464357310}
+  - component: {fileID: 2676010112116833831}
   - component: {fileID: 1430370279283202254}
   - component: {fileID: 1129348264204061413}
   - component: {fileID: 2089732443062990355}
-  - component: {fileID: 2676010112116833831}
   - component: {fileID: 5209521966239991764}
   - component: {fileID: 4216078453183215346}
   - component: {fileID: 7273549551640725354}
@@ -276,6 +276,26 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &2676010112116833831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8393313674150501436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c517564839efdd40b7d977a548a5aa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 5
+  moveInput: {x: 0, y: 0}
+  rb: {fileID: 0}
+  animator: {fileID: 0}
+  currentStateValue: 0
+  isHoldingGun: 0
+  stateLock: 0
+  canMove: 1
 --- !u!50 &1430370279283202254
 Rigidbody2D:
   serializedVersion: 4
@@ -369,25 +389,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &2676010112116833831
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8393313674150501436}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c517564839efdd40b7d977a548a5aa9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 5
-  moveInput: {x: 0, y: 0}
-  rb: {fileID: 0}
-  animator: {fileID: 0}
-  currentStateValue: 0
-  stateLock: 0
-  canMove: 1
 --- !u!114 &5209521966239991764
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -415,12 +416,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a6061e1458c9a747bd6dbe34f0c7f7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackCooldown: 0.5
-  attackRange: 1.5
   lastAttackTime: 0
-  attackDirection: {x: 0, y: 0}
-  attackCollider: {fileID: 591729053861388038}
-  currentWeapon: 
 --- !u!114 &7273549551640725354
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -537,4 +533,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88bde904c5c41724b91f90a5d68cbe00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackCollider: {fileID: 0}
   damage: 20
+  attackCooldown: 0.5
+  attackRange: 1.5

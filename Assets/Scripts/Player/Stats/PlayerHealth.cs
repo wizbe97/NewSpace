@@ -66,6 +66,7 @@ public class PlayerHealth : MonoBehaviour
 
         private void TriggerDeath()
     {
+        playerController.isHoldingGun = false;
         playerController.stateLock = false;
         playerController.currentState = PlayerController.PlayerStates.DIE;
     }
