@@ -27,4 +27,10 @@ public class InputActions : MonoBehaviour
         playerController.canMove = false;
         playerAttack.Attack();
     }
+
+    private void OnDropWeapon()
+    {
+        playerController.isHoldingGun = false;
+        playerAttack.currentWeapon = "wrench";
+    }
 }

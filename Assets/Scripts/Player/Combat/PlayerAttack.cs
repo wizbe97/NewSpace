@@ -9,7 +9,7 @@ public class PlayerAttack : MonoBehaviour
 
     public float lastAttackTime;
     private Vector2 attackDirection;
-    private string currentWeapon;
+    public string currentWeapon;
 
     void Start()
     {
@@ -26,6 +26,11 @@ public class PlayerAttack : MonoBehaviour
         if (currentWeapon == "wrench")
         {
             wrench.Attack(attackDirection);
+        }
+
+        else if (currentWeapon == "shotgun")
+        {
+            Debug.Log("Shotgun attack");
         }
     }
 
