@@ -24,6 +24,7 @@ public class InputActions : MonoBehaviour
 
     private void OnCombat()
     {
+        playerController.canMove = false;
         playerAttack.Attack();
     }
 }

@@ -31,8 +31,8 @@ public class Wrench : MonoBehaviour
             playerAttack.lastAttackTime = Time.time;
 
             // Set the animation parameters
-            playerController.animator.SetFloat("xMove", attackDirection.x);
-            playerController.animator.SetFloat("yMove", attackDirection.y);
+            playerController.animator.SetFloat("mouseX", attackDirection.x);
+            playerController.animator.SetFloat("mouseY", attackDirection.y);
 
             // Update the attack collider's position based on the attack direction
             UpdateAttackColliderPosition(attackDirection);

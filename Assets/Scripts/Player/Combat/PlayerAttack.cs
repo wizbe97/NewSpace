@@ -37,6 +37,7 @@ public class PlayerAttack : MonoBehaviour
     public void OnAttackFinished()
     {
         playerController.stateLock = false;
+        playerController.canMove = true;
         playerController.UpdateAnimationState(playerController.moveInput);
         wrench.attackCollider.enabled = false;
     }

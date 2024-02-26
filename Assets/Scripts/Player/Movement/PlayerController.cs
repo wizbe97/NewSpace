@@ -72,6 +72,7 @@ public class PlayerController : MonoBehaviour
 
 
     public PlayerStates currentStateValue;
+
     public bool isHoldingGun = false;
     public bool stateLock = false;
     public bool canMove = true;
@@ -101,7 +102,7 @@ public class PlayerController : MonoBehaviour
         bool isMoving = moveInput != Vector2.zero;
 
         int stateIdentifier;
-
+        
         if (isMoving)
         {
             if (isHoldingGun)

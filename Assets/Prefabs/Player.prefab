@@ -160,9 +160,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5040522287707846814}
+  - component: {fileID: 2676010112116833831}
   - component: {fileID: 3874855333200539741}
   - component: {fileID: 1304496239464357310}
-  - component: {fileID: 2676010112116833831}
   - component: {fileID: 1430370279283202254}
   - component: {fileID: 1129348264204061413}
   - component: {fileID: 2089732443062990355}
@@ -194,6 +194,26 @@ Transform:
   - {fileID: 1491674607684691926}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2676010112116833831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8393313674150501436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c517564839efdd40b7d977a548a5aa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 5
+  moveInput: {x: 0, y: 0}
+  rb: {fileID: 0}
+  animator: {fileID: 0}
+  currentStateValue: 0
+  isHoldingGun: 0
+  stateLock: 0
+  canMove: 1
 --- !u!212 &3874855333200539741
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -276,26 +296,6 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &2676010112116833831
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8393313674150501436}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c517564839efdd40b7d977a548a5aa9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 5
-  moveInput: {x: 0, y: 0}
-  rb: {fileID: 0}
-  animator: {fileID: 0}
-  currentStateValue: 0
-  isHoldingGun: 0
-  stateLock: 0
-  canMove: 1
 --- !u!50 &1430370279283202254
 Rigidbody2D:
   serializedVersion: 4
