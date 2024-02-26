@@ -2,10 +2,6 @@ using UnityEngine;
 
 public class GunController : MonoBehaviour
 {
-    public float upYOffset = 0.2f;
-    public float downYOffset = -0.2f;
-    public float sideYOffset = -0.1f;
-
     private Transform playerTransform;
     private SpriteRenderer gunSpriteRenderer;
     private int playerSortingOrder;
@@ -52,59 +48,19 @@ public class GunController : MonoBehaviour
         Vector3 direction = mousePosition - playerTransform.position;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
-        // Calculate the angle difference between player's forward direction and the gun direction
-        float angleDifference = Mathf.DeltaAngle(playerTransform.eulerAngles.z, angle);
-
         int sortingOrder = playerSortingOrder; // Start with player's sorting order
 
-        // Check the angle difference to adjust the sorting order
-        if (angleDifference >= -22.5f && angleDifference < 22.5f)
+        // Adjust sorting order based on angle
+        switch (Mathf.RoundToInt(angle / 45f))
         {
-            // Facing right
-            sortingOrder += 1;
-            transform.localPosition = new Vector3(0, sideYOffset, 0);
-        }
-        else if (angleDifference >= 22.5f && angleDifference < 67.5f)
-        {
-            // Facing up and right
-            sortingOrder -= 2;
-            transform.localPosition = new Vector3(0, upYOffset, 0);
-        }
-        else if (angleDifference >= 67.5f && angleDifference < 112.5f)
-        {
-            // Facing up
-            sortingOrder -= 3;
-            transform.localPosition = new Vector3(0, upYOffset, 0);
-        }
-        else if (angleDifference >= 112.5f && angleDifference < 157.5f)
-        {
-            // Facing up and left
-            sortingOrder -= 4;
-            transform.localPosition = new Vector3(0, upYOffset, 0);
-        }
-        else if (angleDifference >= -157.5f && angleDifference < -112.5f)
-        {
-            // Facing down and left
-            sortingOrder += 4;
-            transform.localPosition = new Vector3(0, downYOffset, 0);
-        }
-        else if (angleDifference >= -112.5f && angleDifference < -67.5f)
-        {
-            // Facing down
-            sortingOrder += 3;
-            transform.localPosition = new Vector3(0, downYOffset, 0);
-        }
-        else if (angleDifference >= -67.5f && angleDifference < -22.5f)
-        {
-            // Facing down and right
-            sortingOrder += 2;
-            transform.localPosition = new Vector3(0, downYOffset, 0);
-        }
-        else
-        {
-            // Facing left
-            sortingOrder += 1;
-            transform.localPosition = new Vector3(0, sideYOffset, 0);
+            case 1: // 45 degrees
+            case 2: // 90 degrees
+            case 3: // 135 degrees
+                sortingOrder -= 1; // Decrease sorting order
+                break;
+            default:
+                sortingOrder += 1; // Increase sorting order
+                break;
         }
 
         // Apply the adjusted sorting order to the gun sprite renderer
