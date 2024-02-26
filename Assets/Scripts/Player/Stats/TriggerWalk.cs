@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class DecreaseMoveSpeed : MonoBehaviour
+public class TriggerWalk : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -29,7 +29,6 @@ public class DecreaseMoveSpeed : MonoBehaviour
                 Debug.LogError("Player GameObject not found.");
             }
 
-            Destroy(gameObject);
         }
     }
 }

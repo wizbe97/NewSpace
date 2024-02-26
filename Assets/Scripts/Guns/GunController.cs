@@ -8,11 +8,9 @@ public class GunController : MonoBehaviour
 
     void Start()
     {
-        // Assuming the player GameObject is the parent of the gun GameObject
         playerTransform = transform.parent;
         gunSpriteRenderer = GetComponent<SpriteRenderer>();
 
-        // Get the initial sorting order of the player
         playerSortingOrder = playerTransform.GetComponent<SpriteRenderer>().sortingOrder;
     }
 
@@ -31,7 +29,6 @@ public class GunController : MonoBehaviour
         // Rotate the gun
         transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
-        // Flip the gun sprite if angle is between 90 and -90 degrees
         if (angle > 90 || angle < -90)
         {
             gunSpriteRenderer.flipY = true;
@@ -56,10 +53,10 @@ public class GunController : MonoBehaviour
             case 1: // 45 degrees
             case 2: // 90 degrees
             case 3: // 135 degrees
-                sortingOrder -= 1; // Decrease sorting order
+                sortingOrder -= 1; 
                 break;
             default:
-                sortingOrder += 1; // Increase sorting order
+                sortingOrder += 1; 
                 break;
         }
 
